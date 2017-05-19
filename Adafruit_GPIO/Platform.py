@@ -26,6 +26,7 @@ UNKNOWN          = 0
 RASPBERRY_PI     = 1
 BEAGLEBONE_BLACK = 2
 MINNOWBOARD      = 3
+ORANGE_PI        = 4
 
 def platform_detect():
     """Detect if running on the Raspberry Pi or Beaglebone Black and return the
@@ -35,10 +36,20 @@ def platform_detect():
     if pi is not None:
         return RASPBERRY_PI
 
+    # Handle Orange Pi (Allwinner H2+, H3, H5)
+    plat = platform.platform()
+    if plat.lower().find('sun8i-armv7l-with-debian') > -1:
+        return ORANGE_PI
+    elif plat.lower().find('sun8i-armv7l-with-ubuntu') > -1:
+        return ORANGE_PI
+    elif plat.lower().find('sun50iw2-aarch64-with-debian') > -1:
+        return ORANGE_PI
+    elif plat.lower().find('sun50iw2-aarch64-with-ubuntu') > -1:
+        return ORANGE_PI
+
     # Handle Beaglebone Black
     # TODO: Check the Beaglebone Black /proc/cpuinfo value instead of reading
     # the platform.
-    plat = platform.platform()
     if plat.lower().find('armv7l-with-debian') > -1:
         return BEAGLEBONE_BLACK
     elif plat.lower().find('armv7l-with-ubuntu') > -1:

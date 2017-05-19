@@ -51,6 +51,9 @@ def get_default_bus():
     elif plat == Platform.BEAGLEBONE_BLACK:
         # Beaglebone Black has multiple I2C buses, default to 1 (P9_19 and P9_20).
         return 1
+    elif plat == Platform.ORANGE_PI:
+        # Orange Pi has multiple I2C buses, Bus 0 at Pin PA11/12 and Bus 1 at PA18/19.
+        return 0
     else:
         raise RuntimeError('Could not determine default I2C bus for platform.')
 
